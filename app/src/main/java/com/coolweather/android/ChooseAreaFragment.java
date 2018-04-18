@@ -2,7 +2,9 @@ package com.coolweather.android;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,6 +117,12 @@ public class ChooseAreaFragment extends Fragment {
                         getActivity().finish();
                     } else if (getActivity() instanceof WeatherActivity) {
                         WeatherActivity activity = (WeatherActivity)getActivity();
+                        SharedPreferences.Editor editor =
+                                PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this)
+                                        .edit();
+                        editor.putString("weather_id", weatherId);
+                        editor.apply();
+
                         activity.drawerLayout.closeDrawers();
                         activity.swipeRefresh.setRefreshing(true);
                         activity.requestWeather(weatherId);
